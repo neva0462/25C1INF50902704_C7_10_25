@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+   <title>Trường Đại học Kinh tế TP.HCM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png"
+        href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png">
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; line-height: 1.6; }
+    h1 { text-align: center; color: blue; font-weight: 700; }
+    h2 { text-align: right; color: red; font-style: italic; }
+    .demo-block { margin: 16px 0; }
+    .frame { border: 2px solid #ccc; padding: 12px; border-radius: 8px; }
+    .hint { color:#555; font-size:.9rem; }
+    /* màu nền cho marquee demo */
+    .marq { background: #fff8cc; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Chào mừng bạn đến website của Trường ĐH Kinh tế TP.HCM</h1>
+  <h2>Khoa Công Nghệ Thông Tin Kinh Doanh</h2>
+  <div class="demo-block frame">
+    <h3>Hình ảnh</h3>
+    <img
+      src="https://bit.ueh.edu.vn/wp-content/uploads/2017/06/BIT_logo.png"
+      alt="logo BIT – Khoa CNTTKD UEH"
+      width="800" height="200"
+      style="border:3px solid #888; display:block; margin:0 auto;"
+    />
+  </div>
+  <div class="demo-block frame">
+    <h3>Đối tượng di chuyển </h3>
+    <div class="marq">
+      <marquee direction="left" behavior="scroll" bgcolor="#fff8cc">
+        🎉 Chào mừng đến với Khoa CNTTKD – UEH • Học HTML thật vui!
+      </marquee>
+    </div>
+    <div class="marq" style="margin-top:8px;">
+      <marquee direction="right" behavior="slide" bgcolor="#fff8cc">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHc1dGtwb2d6d2dpMnhya2g0bmY0eW5mYW5uYTNob2loY3NwNnJ1diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26gR1vH0G4N4gB8W8/giphy.gif"
+             alt="flower gif" width="107" height="104">
+      </marquee>
+    </div>
+  </div>
+  <div class="demo-block frame">
+    <h3>Phát nhạc (thẻ <code>audio</code>)</h3>
+    <audio controls autoplay loop preload="auto">
+      <source src="part2.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+</body>
+</html>
