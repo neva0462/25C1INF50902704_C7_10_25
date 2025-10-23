@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+ <meta charset="UTF-8">
+   <title>Trường Đại học Kinh tế TP.HCM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png"
+        href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png">
+<title>Bài 8 — HTML5 layout</title>
+<style>
+  /* Nền & font tổng thể */
+  body{font-family: Arial, Helvetica, sans-serif; color:#111; margin:20px; background:#ffffff;}
+
+  /* Khung lớn nền xám */
+  .frame{
+    background:#e5e7eb;              
+    border:1px solid #cbd5e1;
+    padding:14px;
+    max-width:1045px;
+    margin:0 auto;
+  }
+
+  /* Header trên cùng */
+  header.site { background:#e5e7eb; }
+  header.site .top{
+    display:flex; align-items:center; gap:14px;
+    border:1px solid #cbd5e1; background:#e5e7eb; padding:10px;
+  }
+  header.site img{ height:58px; object-fit:contain; }
+
+  /* Tiêu đề xanh có gạch chân */
+  header.site h1{
+    margin:0; font-size:28px; color:#0b56d0; text-decoration:underline;
+    font-weight:700;
+  }
+
+  /* Thanh menu mỏng dưới header */
+  nav.menu{
+    margin:12px 0 14px;
+    border:1px solid #cbd5e1;
+    background:#efefef;
+    padding:8px;
+    text-align:center;
+    font-size:14px;
+  }
+  nav.menu a{ color:#0b56d0; text-decoration:underline; margin:0 12px; }
+
+  /* Lưới 2 cột 2/1 */
+  .grid{ display:grid; grid-template-columns:2fr 1fr; gap:14px; }
+
+  /* Hộp xám của mỗi khu */
+  .box{ background:#f5f6f8; border:1px solid #cbd5e1; padding:10px; }
+  .box h2{ margin:0 0 10px 0; font-size:20px; }
+
+  /* Ô tiêu đề phụ */
+  .subbox{
+    background:#ebedf0; border:1px solid #cbd5e1; padding:8px; margin-bottom:10px;
+  }
+  .subbox a{ color:#0b56d0; text-decoration:underline; }
+
+  /* Đoạn mô tả */
+  p{ line-height:1.6; margin:10px 0; }
+
+  /* Hình + chú thích có viền */
+  figure{ margin:10px 0 0 0; }
+  figure img{ width:100%; height:auto; border:1px solid #cbd5e1; display:block; }
+  figure figcaption{ font-size:13px; color:#374151; margin-top:4px; }
+
+  /* Footer trang */
+  footer.site{ margin-top:14px; font-size:13px; color:#334155; }
+  a{ color:#0b56d0; }
+</style>
+</head>
+<body>
+
+<section class="frame">
+  <!-- HEADER -->
+  <header class="site">
+    <div class="top">
+      <!-- Logo khoa -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png" alt="UEH / Khoa CNTTKD">
+      <div>
+        <h1>HTML5 Structure</h1>
+        <div style="font-size:13px; color:#334155;">
+          Khoa Công Nghệ Thông Tin Kinh Doanh — School of Business Information Technology
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV dòng link -->
+    <nav class="menu" aria-label="Menu nội dung">
+      <a href="#">Chương trình Đại học</a>
+      <a href="#">CT Liên thông Đại học</a>
+      <a href="#">Chương trình Sau đại học</a>
+      <a href="#">Chương trình quốc tế</a>
+    </nav>
+  </header>
+
+  <!-- 2 CỘT -->
+  <section class="grid">
+    <!-- Cột trái: Chương trình Đại học -->
+    <article class="box">
+      <h2>Chương trình Đại học</h2>
+
+      <div class="subbox">
+        <a href="#">Hệ thống hoạch định nguồn lực doanh nghiệp (ERP)</a>
+      </div>
+
+      <p>
+        Nhu cầu xã hội Hoạch định các nguồn lực một cách hiệu quả để nhắm đến mục tiêu
+        giảm chi phí, tăng sức cạnh tranh là một vấn đề mà mọi doanh nghiệp luôn phải đối
+        mặt, nhất là trong thời kỳ hội nhập hiện nay. Hệ thống hoạch định nguồn lực doanh
+        nghiệp (ERP) […]
+      </p>
+
+      <figure>
+        <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop"
+             alt="Minh họa ERP / chương trình đại học">
+        <figcaption>Hình minh hoạ khối nội dung chính (figure + figcaption).</figcaption>
+      </figure>
+    </article>
+
+    <!-- Cột phải: Liên kết -->
+    <aside class="box">
+      <h2>Liên kết</h2>
+
+      <div class="subbox">
+        <a href="http://bit.ueh.edu.vn/chuyen-nganh-he-thong-thong-tin-kinh-doanh/" target="_blank">
+          Hệ thống thông tin kinh doanh
+        </a>
+      </div>
+
+      <figure>
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop"
+             alt="Liên kết ngành HTTT Kinh doanh">
+        <figcaption>Nhu cầu xã hội & ứng dụng công nghệ trong điều hành doanh nghiệp.</figcaption>
+      </figure>
+    </aside>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site">
+    TS Nguyễn Mạnh Tuấn — <a href="mailto:tuannm@ueh.edu.vn">tuannm@ueh.edu.vn</a>
+  </footer>
+</section>
+
+</body>
+</html>

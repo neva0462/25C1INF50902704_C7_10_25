@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+   <meta charset="UTF-8">
+   <title>Trường Đại học Kinh tế TP.HCM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png"
+        href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png">
+  <title>Bài 9 — Biểu mẫu HTML5 (Quiz)</title>
+</head>
+<body>
+  <h1>Bài 9: Câu hỏi trắc nghiệm (HTML5 Form)</h1>
+
+  <form method="post" action="" id="quiz">
+    <ol>
+      <!-- Câu 1 -->
+      <li>
+        <label for="q1">1. Màu gì được tạo ra khi trộn màu đỏ và màu vàng?</label><br>
+        <input type="color" id="q1" name="q1" required
+               title="Chọn một màu hợp lệ (trình duyệt sẽ hiện bảng chọn màu)">
+      </li>
+
+      <!-- Câu 2 -->
+      <li>
+        <label for="q2">2. Số nguyên tố đầu tiên lớn hơn hoặc bằng 20 là số nào?</label><br>
+        <input type="number" id="q2" name="q2"
+               placeholder="Nhập số nguyên ≥ 20"
+               min="20" step="1" required>
+      </li>
+
+      <!-- Câu 3 -->
+      <li>
+        <label for="q3">3. Dùng đúng 4 chữ số 9 và không dùng số khác, hãy viết phương trình cho ra kết quả = 100 (có thể dùng + - * /).</label><br>
+        <input type="text" id="q3" name="q3"
+               placeholder="Ví dụ: 99+9/9"
+               required>
+      </li>
+
+      <!-- Câu 4 -->
+      <li>
+        <label for="q4">4. Tổng thống Mỹ John F. Kennedy bị ám sát vào ngày nào?</label><br>
+        <input type="date" id="q4" name="q4"
+               placeholder="Chọn ngày hợp lệ" required>
+      </li>
+
+      <!-- Câu 5 -->
+      <li>
+        <label for="q5">5. Trang web tìm kiếm phổ biến nhất thế giới là gì?</label><br>
+        <input type="url" id="q5" name="q5"
+               placeholder="https://www.google.com"
+               required>
+      </li>
+    </ol>
+
+    <input type="submit" value="Gửi bài">
+  </form>
+
+</body>
+</html>
