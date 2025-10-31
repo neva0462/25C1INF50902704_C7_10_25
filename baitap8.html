@@ -1,153 +1,160 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-     <meta charset="UTF-8">
-   <title>Trường Đại học Kinh tế TP.HCM</title>
+  <meta charset="UTF-8">
+  <title>Trường Đại học Kinh tế TP.HCM</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png"
         href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png">
-<style>
+  <style>
     /* 🔹 i. Khung chứa lớn */
     .container {
-      width: 960px;                /* chiều rộng khung chính */
-      margin: 20px auto;           /* căn giữa trang */
-      font-size: 16px;             /* cỡ chữ chung */
-      background: #cfcfcf;         /* màu nền xám nhạt */
-      padding: 20px;               /* khoảng cách trong khung */
-      text-align: center;          /* căn giữa nội dung */
+      width: 960px;
+      margin: 20px auto;
+      font-size: 16px;
+      background: #cfcfcf;
+      padding: 20px;
+      text-align: center;
       font-family: Georgia, 'Times New Roman', Times, serif;
     }
 
-    /* 🔹 ii. Header (tiêu đề chính) */
+    /* 🔹 ii. Header */
     h1 {
-      font-size: 28px;             /* cỡ chữ lớn */
-      text-align: center;          /* căn giữa dòng tiêu đề */
-      margin-bottom: 15px;         /* tạo khoảng cách phía dưới */
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 15px;
     }
 
-    /* 🔹 iii. Description (mô tả tổng quát) */
+    /* 🔹 iii. Description */
     .description {
-      margin: 0 auto 20px;         /* căn giữa và cách dưới */
-      background: #e0e0e0;         /* màu nền xám sáng */
-      padding: 15px;               /* khoảng cách trong khung mô tả */
-      border: 2px solid #fff;      /* viền trắng */
-      border-radius: 10px;         /* bo tròn góc khung */
-      width: 80%;                  /* chiều rộng 80% khung lớn */
+      margin: 0 auto 20px;
+      background: #e0e0e0;
+      padding: 15px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      width: 80%;
     }
 
-    /* 🔹 Chú thích nhỏ dưới mô tả */
     .note {
       margin-bottom: 25px;
       font-style: italic;
       font-size: 15px;
     }
 
-    /* 🔹 iv. Hero-item (mỗi box anh hùng) */
+    /* 🔹 iv. Hero items */
     .heroes {
-      display: flex;               /* chia đều các hero theo hàng ngang */
-      justify-content: space-between; /* tạo khoảng cách đều nhau */
-      flex-wrap: wrap;             /* tự xuống dòng nếu hẹp */
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .hero-item {
-      width: 23%;                  /* chiếm 1/4 chiều ngang */
+      width: 23%;
       display: inline-block;
-      position: relative;          /* cần để căn chỉnh phần mô tả */
+      position: relative;
       text-align: center;
       vertical-align: top;
-      margin-top: 25px;            /* hạ toàn bộ hero-item xuống một chút */
+      margin-top: 25px;
     }
 
-    /* 🔹 v. H2 trong Hero-item (tiêu đề mỗi nghề) */
     .hero-item h2 {
-      font-size: 18px;             /* cỡ chữ vừa phải */
-      text-align: center;          /* căn giữa */
-      margin-bottom: 15px;         /* tạo khoảng cách với box mô tả */
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 15px;
     }
 
-    /* 🔹 vi. Description trong Hero-item (ô chữ mô tả) */
     .hero-desc {
-      position: absolute;          /* đặt đè lên hình ảnh */
-      top: 80px;                   /* hạ box mô tả xuống dưới tiêu đề ~1.5cm */
-      left: 20px;                  /* đẩy sang phải 1 chút */
+      position: absolute;
+      top: 80px;
+      left: 20px;
       right: 20px;
       font-size: 14px;
-      background: rgba(255, 255, 255, 0.65); /* màu nền trong suốt để thấy hình */
-      height: 190px;               /* chiều cao box mô tả */
+      background: rgba(255, 255, 255, 0.65);
+      height: 190px;
       text-align: justify;
       padding: 10px;
       border: 2px solid #fff;
       border-radius: 10px;
-      z-index: 2;                  /* đặt lớp hiển thị trên ảnh */
+      z-index: 2;
       box-sizing: border-box;
       color: #000;
+      transition: 0.3s;
     }
 
-    /* 🔹 vii. Hình trong Hero-item */
     .hero-item img {
       position: relative;
-      width: 100%;                 /* ảnh vừa khung */
-      height: 230px;               /* chiều cao ảnh */
-      border-radius: 15px;         /* bo góc ảnh */
-      margin-top: 45px;            /* hạ ảnh xuống để không che tiêu đề */
+      width: 100%;
+      height: 230px;
+      border-radius: 15px;
+      margin-top: 45px;
       border: 1px solid #ccc;
-      z-index: 1;                  /* ảnh nằm dưới box chữ */
-      object-fit: cover;           /* ảnh không méo khi thay đổi kích thước */
+      z-index: 1;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s;
     }
 
-    /* 🔹 Hiệu ứng hover nhẹ khi rê chuột */
     .hero-item:hover .hero-desc {
-      background: rgba(255, 255, 255, 0.8); /* sáng hơn khi hover */
-      transition: 0.3s;                    /* hiệu ứng mượt */
+      background: rgba(255, 255, 255, 0.8);
     }
 
-</style>
-
-<body> <!-- 🔸 Khung chứa toàn bộ nội dung -->
+    .hero-item:hover img {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
   <div class="container">
     <h1>Heroes of JavaScript and HTML</h1>
-    <div class="description">  <!-- 🔹 Mô tả tổng quan -->
-      <b>Heroes of JavaScript and HTML</b> is a "Heroes of Might and Magic"-like game, but for code nerds.  
+    <div class="description">
+      <b>Heroes of JavaScript and HTML</b> is a "Heroes of Might and Magic"-like game, but for code nerds.
       Each hero has its unique coding abilities and based on them he can develop software applications.
-    </div> 
+    </div>
     <p class="note">Currently the game has only four hero types:</p>
-   
-    <!-- 🔹 Danh sách các hero -->
+
     <div class="heroes">
       <div class="hero-item">
+        <a href="frontend.html">
+          <img src="img/fe.png" alt="Front-end Developer">
+        </a>
         <h2>Front-end Developer</h2>
         <div class="hero-desc">
-          Being the ultra masters of JavaScript, the order of the <b>Front-enders</b> is known to create user interfaces,  
+          Being the ultra masters of JavaScript, the order of the <b>Front-enders</b> is known to create user interfaces,
           that fill the users with absolute pleasure.
         </div>
-        <img src="./img/mobile.jpg" alt="Mobile Developer">
       </div>
 
       <div class="hero-item">
+        <a href="mobile.html">
+          <img src="img/mobile.jpg" alt="Mobile Developer">
+        </a>
         <h2>Mobile Developer</h2>
         <div class="hero-desc">
-          The movement of the <b>Mobile developers</b> is brand new, yet in their short time they already manage to amaze  
+          The movement of the <b>Mobile developers</b> is brand new, yet in their short time they already manage to amaze
           the peoples of the worlds and beyond with create applications.
         </div>
-          <img src="./img/mobile.jpg" alt="Mobile Developer">
       </div>
 
       <div class="hero-item">
+        <a href="web.html">
+          <img src="img/web.jpg" alt="Web Developer">
+        </a>
         <h2>Web Developer</h2>
         <div class="hero-desc">
-          The sect of the <b>Web developers</b> is the oldest there is. They prefer the old ways and rarely move to modern  
+          The sect of the <b>Web developers</b> is the oldest there is. They prefer the old ways and rarely move to modern
           stuff. The Old Religion gives them power of small gods.
         </div>
-      <img src="./img/web.jpg" alt="Web Developer">
       </div>
 
       <div class="hero-item">
+        <a href="qa.html">
+          <img src="img/qa.jpg" alt="QA Engineer">
+        </a>
         <h2>QA Engineer</h2>
         <div class="hero-desc">
-          The <b>QAs</b> are the desiders of fates! They always have the final word, and all gods and mortals are bound to  
+          The <b>QAs</b> are the desiders of fates! They always have the final word, and all gods and mortals are bound to
           obey them.
         </div>
-     <img src="./img/qa.jpg" alt="QA Engineer">
       </div>
     </div>
   </div>
