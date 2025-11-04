@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png"
+        href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png">
+  <title>Preview – Các ví dụ</title>
+
+  <style>
+    /* 🌌 Thiết lập tổng thể trang */
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    /* 🧭 Tiêu đề chính */
+    header h1 {
+      font-size: 26px;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+
+    header p {
+      font-size: 14px;
+      color: #bbb;
+      margin-top: 0;
+    }
+
+    /* 🧱 Phần gallery hiển thị ví dụ */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      max-width: 800px;
+      margin: 50px auto;
+    }
+
+    .gallery-item {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(180,180,255,0.2), rgba(255,180,255,0.3));
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 12px rgba(255,255,255,0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: holoMove 6s ease-in-out infinite alternate;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255,255,255,0.3);
+    }
+
+    /* ✨ Hiệu ứng chuyển sáng holographic */
+    @keyframes holoMove {
+      0% {
+        background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(190,190,255,0.3), rgba(255,190,255,0.3));
+      }
+      100% {
+        background: linear-gradient(225deg, rgba(255,255,255,0.6), rgba(200,200,255,0.4), rgba(255,200,255,0.5));
+      }
+    }
+
+    /* 🔗 Link trong ô */
+    .gallery-item a {
+      display: block;
+      width: 100%;
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+      background: rgba(255,255,255,0.85);
+      padding: 12px 0;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .gallery-item a:hover {
+      background: rgba(255,255,255,0.95);
+    }
+
+    /* 👤 Thông tin cá nhân */
+    .profile {
+      margin-top: 40px;
+    }
+
+    .profile h2 {
+      font-size: 18px;
+      margin-top: 15px;
+      color: #fff;
+    }
+
+    .profile p {
+      color: #bbb;
+      font-size: 14px;
+      margin: 2px 0;
+    }
+
+    /* ⚙️ Footer */
+    footer {
+      margin-top: 60px;
+      color: #666;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🌐 CÁC VÍ DỤ HTML & CSS</h1>
+    <p>Bài tập thực hành Web / TMĐT</p>
+  </header>
+
+  <section class="profile">
+    <h2>KANEVA</h2>
+    <p>Lớp: 25C1INF50902704 | MSSV: 35231022203</p>
+    <p>Trường Đại học Kinh tế TP.HCM (UEH)</p>
+  </section>
+
+  <main>
+    <div class="gallery">
+      <div class="gallery-item"><a href="./vidu1.html" target="_blank">Ví dụ 1 – Cấu trúc HTML cơ bản</a></div>
+      <div class="gallery-item"><a href="./vidu2.html" target="_blank">Ví dụ 2 – CSS định dạng văn bản</a></div>
+      <div class="gallery-item"><a href="./vidu3.html" target="_blank">Ví dụ 3 – Ảnh & Hiệu ứng hover</a></div>
+      <div class="gallery-item"><a href="./index.html" target="_blank">Tổng hợp– Layout & Flexbox</a></div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 - Ví dụ HTML & CSS | Thực hành P
+
