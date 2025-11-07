@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hiệu Ứng Hover</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png"
+    />
+    <style>
+      /* ====================== CẤU TRÚC CHUNG CHO MỌI HIỆU ỨNG ====================== */
+
+      .view {
+        position: relative; /* Cho phép .mask định vị dựa trên .view */
+        width: 350px; /* Chiều rộng khung */
+        height: 250px; /* Chiều cao khung */
+        overflow: hidden; /* Ẩn phần thừa khi hiệu ứng chuyển động */
+        display: inline-block; /* Hiển thị cạnh nhau */
+        margin: 20px; /* Tạo khoảng cách giữa các ví dụ */
+      }
+
+      /* Ảnh bên trong khung */
+      .view img {
+        width: 100%; /* Ảnh phủ toàn bộ chiều ngang */
+        height: 100%; /* Ảnh phủ toàn bộ chiều dọc */
+        display: block; /* Xóa khoảng trắng dư mặc định */
+      }
+
+      /* Lớp mask phủ lên ảnh (dùng để tạo hiệu ứng overlay) */
+      .view .mask {
+        position: absolute; /* Đè lên ảnh */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* =================== VÍ DỤ 1 (THEO ĐỀ: MÀU XANH + CHẠY TRÁI → PHẢI) =================== */
+
+      .view-first img {
+        transition: all 0.2s linear; /* Cho ảnh thay đổi mượt */
+      }
+
+      /* Mask ban đầu ẩn hoàn toàn ở bên trái */
+      .view-first .mask {
+        opacity: 0; /* Ban đầu trong suốt */
+        background-color: rgba(173, 216, 230, 0.7); /* Xanh nhạt (light blue) */
+        transition: all 0.4s ease-in-out; /* Hiệu ứng chuyển động mượt */
+        transform: translateX(-100%); /* Ẩn ngoài bên trái (âm 100%) */
+      }
+
+      /* Các phần tử text ban đầu cũng ẩn và trôi từ trái */
+      .view-first h2,
+      .view-first p,
+      .view-first a.info {
+        opacity: 0; /* Ẩn chữ */
+        transform: translateX(-50px); /* Dịch sang trái 50px */
+        transition: all 0.3s ease-in-out;
+      }
+
+      /* KHI HOVER: Phóng to ảnh */
+      .view-first:hover img {
+        transform: scale(1.1); /* Phóng ảnh lên 110% */
+      }
+
+      /* KHI HOVER: Mask chạy từ TRÁI sang PHẢI */
+      .view-first:hover .mask {
+        opacity: 1; /* Hiện mask */
+        transform: translateX(
+          0
+        ); /* Chạy từ -100% về vị trí 0 (từ trái sang phải) */
+      }
+
+      /* KHI HOVER: Text chạy vào cùng mask */
+      .view-first:hover h2,
+      .view-first:hover p,
+      .view-first:hover a.info {
+        opacity: 1; /* Hiện chữ */
+        transform: translateX(0); /* Chạy vào vị trí ban đầu */
+      }
+
+      /* =================== VÍ DỤ 7 (THEO ĐỀ: ẢNH KHÔNG BIẾN MẤT + XOAY) =================== */
+
+      .view-seventh img {
+        transition: all 0.5s ease-out; /* Hiệu ứng xoay mượt trong 0.5s */
+      }
+
+      /* Mask ban đầu bay lên trên và xoay ngược */
+      .view-seventh .mask {
+        background-color: rgba(77, 44, 35, 0.5); /* Nâu mờ */
+        opacity: 0; /* Ban đầu ẩn */
+        transition: all 0.3s ease-out;
+        transform: translateY(-200px) rotate(180deg); /* Bay lên 200px + xoay 180 độ */
+      }
+
+      /* Text ban đầu cũng bay lên */
+      .view-seventh h2,
+      .view-seventh p,
+      .view-seventh a.info {
+        opacity: 0;
+        transform: translateY(-200px);
+        transition: all 0.3s ease-in-out;
+      }
+
+      /* KHI HOVER: Ảnh xoay 720 độ (2 vòng) NHƯNG GIỮ NGUYÊN ĐỘ PHÓNG */
+      .view-seventh:hover img {
+        transform: rotate(720deg) scale(1); /* Xoay 2 vòng, scale(1) = không thu nhỏ */
+        opacity: 1; /* Giữ độ trong suốt = 1 (không mất ảnh) */
+      }
+
+      /* KHI HOVER: Mask CŨNG XOAY 720 độ giống ảnh + bay xuống về vị trí ban đầu */
+      .view-seventh:hover .mask {
+        opacity: 1; /* Hiện mask */
+        transform: translateY(0) rotate(720deg); /* Bay về vị trí ban đầu + xoay 2 vòng */
+        transition-delay: 0.4s; /* Delay 0.4s trước khi chạy hiệu ứng */
+      }
+
+      /* KHI HOVER: Text bay xuống */
+      .view-seventh:hover h2,
+      .view-seventh:hover p,
+      .view-seventh:hover a.info {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* =================== HIỆU ỨNG TỰ THIẾT KẾ (PHÓNG ẢNH + CHỮ PHÁT SÁNG) =================== */
+
+      .my-hover img {
+        transition: 0.4s; /* Hiệu ứng trong 0.4s */
+      }
+
+      /* Mask màu tím, ban đầu ẩn */
+      .my-hover .mask {
+        opacity: 0;
+        background-color: rgba(128, 0, 128, 0.5); /* Tím mờ */
+        transition: 0.4s;
+      }
+
+      /* Tiêu đề màu trắng, kích thước ban đầu */
+      .my-hover h2 {
+        color: white;
+        transform: scale(1); /* Kích thước gốc */
+        transition: 0.4s;
+      }
+
+      /* KHI HOVER: Phóng to ảnh */
+      .my-hover:hover img {
+        transform: scale(1.2); /* Phóng ảnh lên 120% */
+      }
+
+      /* KHI HOVER: Hiện lớp phủ tím */
+      .my-hover:hover .mask {
+        opacity: 1;
+      }
+
+      /* KHI HOVER: Chữ phóng to + phát sáng */
+      .my-hover:hover h2 {
+        transform: scale(1.4); /* Phóng chữ lên 140% */
+        text-shadow: 0 0 15px white; /* Hiệu ứng phát sáng trắng bán kính 15px */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- VÍ DỤ 1: Mask chạy từ trái sang phải, nền xanh nhạt -->
+    <h2>Ví dụ 1</h2>
+    <div class="view view-first">
+      <img src="https://picsum.photos/350/250?1" />
+      <div class="mask"></div>
+    </div>
+
+    <!-- VÍ DỤ 7: Ảnh và mask đều xoay 720 độ, ảnh không mất -->
+    <h2>Ví dụ 7</h2>
+    <div class="view view-seventh">
+      <img src="https://picsum.photos/350/250?2" />
+      <div class="mask"></div>
+    </div>
+
+    <!-- HIỆU ỨNG TỰ THIẾT KẾ: Phóng to + phát sáng -->
+    <h2>Hiệu ứng Tự Thiết Kế</h2>
+    <div class="view my-hover">
+      <img src="https://picsum.photos/350/250?3" />
+      <div class="mask"></div>
+    </div>
+  </body>
+</html>

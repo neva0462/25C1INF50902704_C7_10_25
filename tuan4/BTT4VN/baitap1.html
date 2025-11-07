@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hover Effect</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png"
+    />
+    <style>
+      .khoa {
+        background-color: green; /* màu nền ban đầu */
+        font-size: 20px; /* kích thước chữ ban đầu */
+        display: inline-block; /* để transform hoạt động mượt */
+        transition: all 0.4s ease; /* tạo hiệu ứng chuyển động */
+        transform: matrix(1, 0, 0, 1, 0, 0); /* trạng thái transform ban đầu */
+        padding: 10px 20px; /* cho chữ đỡ sát mép */
+        color: white;
+      }
+
+      /* Khi hover */
+      .khoa:hover {
+        background-color: red; /* đổi sang đỏ */
+        font-size: 50px; /* tăng kích thước chữ */
+        transform: matrix(
+          1.4,
+          -0.54,
+          0.54,
+          1.4,
+          0,
+          0
+        ); /* transform theo yêu cầu */
+      }
+    </style>
+  </head>
+  <body>
+    <p class="khoa">Khoa CNTTKD</p>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bài 3 - Hover Animate.css</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png"
+    />
+
+    <!-- Gọi thư viện hiệu ứng Animate.css từ CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <style>
+      /* Căn giữa nội dung, thêm khoảng cách trên */
+      body {
+        text-align: center;
+        padding-top: 40px;
+        font-family: Arial;
+      }
+
+      /* Khung chứa hình */
+      .view {
+        position: relative; /* Cho phép đặt lớp mask đè lên hình */
+        width: 350px;
+        height: 250px;
+        overflow: hidden; /* Ẩn phần hình bị phóng to */
+        display: inline-block;
+        margin: 20px;
+      }
+
+      /* Hình ảnh */
+      .view img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        transition: 0.3s; /* Tạo hiệu ứng mượt khi phóng hình */
+      }
+
+      /* Lớp phủ mask ban đầu ẩn và nằm lệch sang trái */
+      .view .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(173, 216, 230, 0.7); /* Màu xanh nhạt có độ mờ */
+        opacity: 0; /* Ẩn ban đầu */
+        transform: translateX(-100%); /* Trượt ra ngoài khung */
+        transition: 0.4s; /* Hiệu ứng trượt mượt */
+      }
+
+      /* Chữ và nút trong mask ban đầu bị mờ và lệch trái */
+      .view h2,
+      .view p,
+      .view a.info {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+
+      /* Khi hover vào .view → phóng to hình */
+      .view:hover img {
+        transform: scale(1.1);
+      }
+
+      /* Hiện mask trượt lên */
+      .view:hover .mask {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Hiệu ứng chữ h2 xuất hiện từ trên xuống */
+      .view:hover h2 {
+        opacity: 1;
+        transform: translateX(0);
+        animation: animate__fadeInDown 0.7s; /* Gọi hiệu ứng Animate.css */
+      }
+
+      /* Nội dung p xuất hiện từ dưới lên */
+      .view:hover p {
+        opacity: 1;
+        transform: translateX(0);
+        animation: animate__fadeInUp 0.7s;
+      }
+
+      /* Nút xuất hiện bật vào */
+      .view:hover a.info {
+        opacity: 1;
+        transform: translateX(0);
+        animation: animate__bounceIn 0.7s;
+      }
+
+      /* Style nút */
+      .info {
+        display: inline-block;
+        padding: 6px 12px;
+        background: #fff;
+        margin-top: 8px;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Bài 3 - Hover + Animate.css</h2>
+
+    <!-- Khung hiệu ứng -->
+    <div class="view">
+      <!-- Hình demo -->
+      <img src="https://picsum.photos/350/250?1" alt="" />
+
+      <!-- Lớp phủ + nội dung hiệu ứng -->
+      <div class="mask">
+        <h2 class="animate__animated"></h2>
+        <p class="animate__animated">Hiệu ứng lớp phủ</p>
+        <a href="#" class="info animate__animated"></a>
+      </div>
+    </div>
+  </body>
+</html>
