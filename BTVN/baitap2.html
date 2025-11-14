@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Game Flappy Bird - Nâng Cao</title>
+    <!-- Icon của trang web (hiển thị trên tab trình duyệt) -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png"
+    />
+    <style>
+      /* Reset CSS: Xóa mọi margin, padding mặc định của trình duyệt
+        để đảm bảo giao diện nhất quán trên mọi trình duyệt.
+      */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Thiết lập cho toàn bộ trang */
+      body {
+        height: 100vh; /* Cao 100% chiều cao của màn hình */
+        width: 100vw; /* Rộng 100% chiều rộng của màn hình */
+        display: flex; /* Sử dụng Flexbox để căn chỉnh nội dung */
+        justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+        align-items: center; /* Căn giữa nội dung theo chiều dọc */
+        /* [THAY ĐỔI] Nền xám xanh nhạt tinh tế hơn */
+        background-color: #e2ebf0;
+        font-family: "Arial", sans-serif; /* Font chữ mặc định */
+      }
+
+      /* Khung chứa trò chơi */
+      #container {
+        position: relative; /* Để các phần tử con có thể định vị tuyệt đối (position: absolute) bên trong nó */
+        height: 600px; /* Chiều cao cố định của game */
+        width: 400px; /* Chiều rộng cố định của game */
+        border: 4px solid #0fc9fc; /* Đường viền cho khung game */
+        /* Nền trời và mặt đất */
+        background: linear-gradient(
+          to bottom,
+          #87ceeb 0%,
+          #87ceeb 75%,
+          /* 75% ở trên là trời xanh */ #e69cf1 75%,
+          #ca80c5 100% /* 25% ở dưới là đất màu cam */
+        );
+        overflow: hidden; /* Ẩn mọi thứ vượt ra ngoài khung game (quan trọng để ống khói biến mất) */
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4); /* Hiệu ứng đổ bóng */
+        border-radius: 10px; /* Bo góc */
+      }
+
+      /* ---- BIRD ---- */
+      #bird {
+        position: absolute; /* Định vị tuyệt đối so với #container */
+        height: 45px;
+        width: 45px;
+        top: 20%; /* Vị trí ban đầu (theo chiều dọc) */
+        left: 15%; /* Vị trí ban đầu (theo chiều ngang) */
+        transition: transform 0.1s; /* Hiệu ứng xoay mượt mà */
+        filter: drop-shadow(
+          2px 2px 3px rgba(0, 0, 0, 0.3)
+        ); /* Đổ bóng cho chim */
+        z-index: 20; /* Đảm bảo chim nằm trên ống khói */
+      }
+
+      /* Dùng pseudo-element ::before để hiển thị emoji */
+      #bird::before {
+        content: "🦢"; /* Con thiên nga */
+        font-size: 45px;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        display: inline-block; /* Cần có để transform hoạt động */
+        transform: scaleX(-1); /* Lật ngược con chim sang phải */
+      }
+
+      /* ---- ỐNG KHÓI (POLE) ---- */
+      .pole {
+        position: absolute;
+        width: 65px;
+        right: -70px; /* Vị trí ban đầu, nằm ngoài màn hình bên phải */
+        /* Dùng CSS Gradient để tạo hình ảnh ống khói */
+        background: linear-gradient(
+          to right,
+          #cccfd2 0%,
+          #a7abae 50%,
+          #ecedef 100%
+        );
+        border: 3px solid #1a252f;
+        box-shadow: inset -3px 0 8px rgba(0, 0, 0, 0.4),
+          3px 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 10; /* Nằm dưới con chim */
+      }
+
+      /* Dùng ::after để tạo hiệu ứng khói */
+      .pole::after {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 20px;
+        background: radial-gradient(
+          circle,
+          rgba(200, 200, 200, 0.6) 0%,
+          transparent 70%
+        );
+        left: -10px;
+        animation: smoke 2s infinite; /* Gọi animation 'smoke' */
+      }
+
+      /* Ống khói trên */
+      #pole_1 {
+        top: 0; /* Nằm ở trên cùng */
+        border-top: none; /* Xóa viền trên */
+      }
+
+      #pole_1::after {
+        bottom: -15px; /* Hiệu ứng khói ở dưới ống */
+      }
+
+      /* Ống khói dưới */
+      #pole_2 {
+        bottom: 0; /* Nằm ở dưới cùng */
+        border-bottom: none; /* Xóa viền dưới */
+      }
+
+      #pole_2::after {
+        top: -15px; /* Hiệu ứng khói ở trên ống */
+      }
+
+      /* Animation cho khói */
+      @keyframes smoke {
+        0% {
+          opacity: 0.6;
+          transform: translateX(0) scale(1);
+        }
+        50% {
+          opacity: 0.3;
+          transform: translateX(-10px) scale(1.2);
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(-20px) scale(1.4);
+        }
+      }
+
+      /* ---- VẬT PHẨM (ITEM) ---- */
+      #life_item {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        right: -30px; /* Bắt đầu ngoài màn hình */
+        top: 50%; /* Bắt đầu ở giữa */
+        z-index: 15; /* Nằm trên ống khói, dưới con chim */
+        display: none; /* Ban đầu ẩn đi */
+      }
+      /* Dùng ::before để hiển thị emoji trái tim */
+      #life_item::before {
+        content: "❤️";
+        font-size: 30px;
+        position: absolute;
+        filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+        animation: bounce-heart 1s infinite;
+      }
+      /* Animation cho trái tim nảy nhẹ */
+      @keyframes bounce-heart {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      /* ---- GIAO DIỆN NGƯỜI DÙNG (UI) ---- */
+
+      /* Hiển thị Level */
+      #level_display {
+        position: absolute;
+        top: 15px;
+        left: 15px; /* Góc trên bên trái */
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 15px;
+        border-radius: 10px;
+        z-index: 100; /* Nằm trên các phần tử khác */
+        text-shadow: 2px 2px 4px #000;
+        border: 2px solid #ffd700;
+      }
+
+      /* Hiển thị Mạng (Lives) */
+      #lives_display {
+        position: absolute;
+        top: 70px; /* [THAY ĐỔI] Dời xuống thêm 5px */
+        left: 15px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        background: rgba(255, 0, 0, 0.6);
+        padding: 5px 15px;
+        border-radius: 10px;
+        z-index: 100;
+      }
+
+      /* Hiển thị điểm số */
+      #score {
+        font-size: 40px;
+        position: absolute;
+        top: 15px;
+        right: 15px; /* Góc trên bên phải */
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+          -1px 1px 0 #000;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 10px 20px;
+        border-radius: 10px;
+      }
+
+      /* Hiển thị điểm cao */
+      #highscore_display {
+        position: absolute;
+        top: 85px; /* [THAY ĐỔI] Dời xuống thêm 10px */
+        right: 15px;
+        font-size: 16px;
+        color: #ffd700;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px 15px;
+        border-radius: 8px;
+        z-index: 100;
+        text-shadow: 1px 1px 2px #000;
+      }
+
+      /* Nút Chơi Lại */
+      #restart_btn {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 15px 40px;
+        /* [THAY ĐỔI] Đổi màu nút sang xanh lá */
+        background: #4caf50;
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        border: 3px solid #fff;
+        border-radius: 15px;
+        cursor: pointer;
+        display: none;
+        z-index: 100;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s;
+      }
+
+      /* Hiệu ứng khi rê chuột vào nút chơi lại */
+      #restart_btn:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        background: #45a049; /* [THAY ĐỔI] Màu xanh đậm hơn */
+      }
+
+      /* Nút Bắt Đầu Chơi (màn hình chờ) */
+      #play_btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7); /* Lớp nền mờ */
+        border: 0;
+        font-size: 28px;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+        z-index: 50;
+        text-shadow: 2px 2px 4px #000;
+      }
+
+      #play_btn:hover {
+        background: rgba(0, 0, 0, 0.8); /* Đậm hơn khi rê chuột */
+      }
+
+      /* Hướng dẫn trong nút Play */
+      .instruction {
+        margin-top: 20px;
+        font-size: 16px;
+        opacity: 0.9;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+      }
+
+      /* Thông báo GAME OVER và CHIẾN THẮNG */
+      #game_over_msg,
+      #victory_msg {
+        position: absolute;
+        top: 30%; /* Nằm ở 30% từ trên xuống */
+        left: 50%;
+        transform: translateX(-50%); /* Căn giữa theo chiều ngang */
+        font-size: 48px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 4px 4px 0 #000;
+        display: none; /* Ban đầu ẩn đi */
+        z-index: 99;
+        text-align: center;
+      }
+
+      #victory_msg {
+        color: #ffd700; /* Màu vàng cho chiến thắng */
+        font-size: 42px;
+      }
+
+      .victory-icon {
+        font-size: 80px;
+        display: block;
+        margin-bottom: 10px;
+        animation: bounce 0.8s infinite; /* Gọi animation 'bounce' */
+      }
+
+      /* Animation cho icon chiến thắng */
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px); /* Nảy lên */
+        }
+      }
+
+      /* Hiển thị tốc độ (theo level) */
+      #speed_indicator {
+        position: absolute;
+        bottom: 15px;
+        left: 15px; /* Góc dưới bên trái */
+        font-size: 14px;
+        color: #fff;
+        background: rgba(255, 0, 0, 0.6);
+        padding: 8px 15px;
+        border-radius: 8px;
+        z-index: 10;
+        font-weight: bold;
+      }
+
+      /* Trợ giúp điều khiển */
+      #controls_help {
+        position: absolute;
+        bottom: 15px;
+        right: 15px; /* Góc dưới bên phải */
+        font-size: 12px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 8px 12px;
+        border-radius: 8px;
+        z-index: 10;
+        display: none; /* Ẩn đi, chỉ hiện khi chơi */
+      }
+
+      /* Lớp 'show' (thêm bằng JS) để hiện trợ giúp */
+      #controls_help.show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Các thẻ Audio để phát âm thanh.
+         'preload="auto"' giúp trình duyệt tải file âm thanh sẵn sàng.
+         Các file này được host online.
+    -->
+    <audio
+      id="audio_flap"
+      src="https://actions.google.com/sounds/v1/impacts/cloth_flaps_in_wind.ogg"
+      preload="auto"
+    ></audio>
+    <audio
+      id="audio_score"
+      src="https://actions.google.com/sounds/v1/cartoon/magic_chime.ogg"
+      preload="auto"
+    ></audio>
+    <audio
+      id="audio_hit"
+      src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"
+      preload="auto"
+    ></audio>
+    <!-- Thêm âm thanh vật phẩm -->
+    <audio
+      id="audio_item"
+      src="https://actions.google.com/sounds/v1/achievements/achievement_trumpet.ogg"
+      preload="auto"
+    ></audio>
+
+    <!-- Nhạc nền (BGM) cho trò chơi, 'loop' để lặp lại vô tận -->
+    <audio
+      id="audio_bgm"
+      src="https://actions.google.com/sounds/v1/backtracks/quiet_time.ogg"
+      preload="auto"
+      loop
+    ></audio>
+
+    <!-- Đây là khung chứa toàn bộ trò chơi, được định nghĩa trong CSS -->
+    <div id="container">
+      <!-- Phần tử con chim -->
+      <div id="bird"></div>
+      <!-- Hai ống khói -->
+      <div id="pole_1" class="pole"></div>
+      <div id="pole_2" class="pole"></div>
+
+      <!-- Thêm vật phẩm vào game -->
+      <div id="life_item"></div>
+
+      <!-- Nút bắt đầu game (màn hình chờ) -->
+      <button id="play_btn">
+        🎮 BẮT ĐẦU CHƠI
+        <!-- Cập nhật hướng dẫn điều khiển cho đúng -->
+        <span class="instruction">Nhấn 'SPACE' hoặc '⬇️' để bay lên</span>
+      </button>
+
+      <!-- Các phần tử giao diện (UI) -->
+      <div id="level_display">Level: 1</div>
+      <!-- Thêm hiển thị mạng -->
+      <div id="lives_display">❤️❤️❤️</div>
+      <span id="score">0</span>
+      <div id="highscore_display">High: 0</div>
+      <div id="speed_indicator">Speed: Normal</div>
+      <div id="controls_help">SPACE / ⬇️</div>
+      <!-- Hướng dẫn khi chơi -->
+      <div id="game_over_msg">GAME OVER!</div>
+      <!-- Thông báo thua -->
+      <div id="victory_msg">
+        <!-- Thông báo thắng -->
+        <span class="victory-icon">🏆</span>
+        CHIẾN THẮNG!
+      </div>
+
+      <!-- Nút chơi lại (hiện khi thua hoặc thắng) -->
+      <button id="restart_btn">🔄 CHƠI LẠI</button>
+    </div>
+
+    <!-- Tải thư viện jQuery từ CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // $(function () { ... }) là cú pháp của jQuery,
+      // đảm bảo mã bên trong chỉ chạy khi trang web đã tải xong.
+      $(function () {
+        // --- 1. LẤY VÀ LƯU TRỮ CÁC BIẾN (CACHE) ---
+        var container = $("#container");
+        var bird = $("#bird");
+        var pole = $(".pole");
+        var pole_1 = $("#pole_1");
+        var pole_2 = $("#pole_2");
+        var score_display = $("#score");
+        var level_display = $("#level_display");
+        var restart_btn = $("#restart_btn");
+        var play_btn = $("#play_btn");
+        var game_over_msg = $("#game_over_msg");
+        var victory_msg = $("#victory_msg");
+        var highscore_display = $("#highscore_display");
+        var speed_indicator = $("#speed_indicator");
+        var controls_help = $("#controls_help");
+
+        // Lấy biến UI và âm thanh mới
+        var lives_display = $("#lives_display");
+        var life_item = $("#life_item");
+        var audio_item = $("#audio_item")[0];
+
+        // Lấy các biến âm thanh
+        var audio_flap = $("#audio_flap")[0];
+        var audio_score = $("#audio_score")[0];
+        var audio_hit = $("#audio_hit")[0];
+        var audio_bgm = $("#audio_bgm")[0];
+        audio_bgm.volume = 0.3; // Giảm âm lượng nhạc nền xuống 30%
+        audio_item.volume = 0.5;
+
+        // --- 2. CÁC BIẾN THIẾT LẬP KÍCH THƯỚC ---
+        var container_width = parseInt(container.width());
+        var container_height = parseInt(container.height());
+        var pole_initial_position = parseInt(pole.css("right"));
+        var pole_initial_height = 200;
+        var bird_left = parseInt(bird.css("left"));
+        var bird_height = parseInt(bird.height());
+        var base_speed = 3;
+
+        // --- 3. CÁC BIẾN TRẠNG THÁI GAME ---
+        var score_updated = false;
+        var game_over = false;
+        var the_game;
+        var current_score = 0;
+        var current_level = 1;
+        var game_interval = 40;
+        var high_score = localStorage.getItem("flappybird_highscore") || 0;
+
+        // Thêm biến Mạng (Lives)
+        var current_lives = 3;
+        var is_hit = false; // Biến cờ, đánh dấu chim vừa bị va chạm
+
+        // Biến trạng thái vật phẩm
+        var item_active = false; // Vật phẩm đang có trên màn hình
+        var item_speed = 2; // Tốc độ vật phẩm
+
+        // --- 4. CÁC BIẾN VẬT LÝ ---
+        var bird_velocity = 0;
+        var gravity = 0.5;
+        var jump_strength = -8;
+
+        // --- 5. CẤU HÌNH LEVEL ---
+        var level_config = {
+          1: { interval: 40, speed: 3, threshold: 0, name: "Normal" },
+          2: { interval: 30, speed: 4, threshold: 5, name: "Fast" },
+          3: { interval: 25, speed: 5, threshold: 20, name: "Faster" },
+          4: { interval: 20, speed: 6, threshold: 40, name: "Extreme" },
+        };
+
+        // --- 6. KHỞI TẠO GAME LẦN ĐẦU ---
+        highscore_display.text("High: " + high_score);
+        pole_1.css("height", pole_initial_height);
+        pole_2.css("height", pole_initial_height);
+        updateLivesDisplay(); // Cập nhật hiển thị mạng
+
+        // --- 7. HÀM CẬP NHẬT LEVEL ---
+        function updateLevel(score) {
+          var new_level = 1;
+
+          if (score >= 40) new_level = 4;
+          else if (score >= 20) new_level = 3;
+          else if (score >= 5) new_level = 2;
+          else new_level = 1;
+
+          if (new_level !== current_level) {
+            current_level = new_level;
+            level_display.text("Level: " + current_level);
+
+            game_interval = level_config[current_level].interval;
+            base_speed = level_config[current_level].speed;
+            speed_indicator.text("Speed: " + level_config[current_level].name);
+
+            clearInterval(the_game);
+            if (!game_over) {
+              playGame();
+            }
+          }
+        }
+
+        // --- 8. VÒNG LẶP GAME CHÍNH (GAME LOOP) ---
+        function playGame() {
+          the_game = setInterval(function () {
+            if (game_over) {
+              return;
+            }
+
+            // Nếu chim đang bị va chạm, bỏ qua frame này
+            if (is_hit) {
+              return;
+            }
+
+            // Kiểm tra thắng
+            if (current_score >= 50) {
+              victory();
+              return;
+            }
+
+            // Kiểm tra va chạm ống hoặc trần/sàn
+            if (
+              collision(bird, pole_1) ||
+              collision(bird, pole_2) ||
+              parseInt(bird.css("top")) <= 0 ||
+              parseInt(bird.css("top")) > container_height - bird_height
+            ) {
+              handleHit(); // Xử lý va chạm (trừ mạng)
+            } else {
+              // --- Xử lý Ống khói (Poles) ---
+              var pole_current_position = parseInt(pole.css("right"));
+
+              // Tính điểm
+              if (pole_current_position > container_width - bird_left) {
+                if (score_updated === false) {
+                  current_score++;
+                  score_display.text(current_score);
+                  score_updated = true;
+
+                  audio_score.currentTime = 0;
+                  audio_score.play();
+
+                  updateLevel(current_score);
+                }
+              }
+
+              // Reset ống khói
+              if (pole_current_position > container_width) {
+                var new_height = parseInt(Math.random() * 150);
+                pole_1.css("height", pole_initial_height + new_height);
+                pole_2.css("height", pole_initial_height - new_height);
+
+                score_updated = false;
+                pole_current_position = pole_initial_position;
+
+                // Logic tạo vật phẩm
+                // Chỉ tạo khi (level > 1) VÀ (đang không có vật phẩm)
+                // VÀ (25% may mắn)
+                // [THAY ĐỔI] Thêm điều kiện: chỉ tạo khi mạng < 6
+                if (
+                  current_level >= 2 &&
+                  !item_active &&
+                  Math.random() < 0.25 &&
+                  current_lives < 6
+                ) {
+                  spawnLifeItem();
+                }
+              }
+
+              // Di chuyển ống
+              pole.css("right", pole_current_position + base_speed);
+
+              // --- Xử lý Vật phẩm (Item) ---
+              if (item_active) {
+                // Kiểm tra ăn vật phẩm
+                if (collision(bird, life_item)) {
+                  gainLife();
+                } else {
+                  // Di chuyển vật phẩm
+                  var item_current_position = parseInt(life_item.css("right"));
+                  if (item_current_position > container_width + 30) {
+                    // Vật phẩm ra khỏi màn hình
+                    item_active = false;
+                    life_item.hide();
+                  } else {
+                    life_item.css("right", item_current_position + item_speed);
+                  }
+                }
+              }
+
+              // --- Xử lý Chim (Bird) ---
+              bird_velocity += gravity;
+              bird.css("top", parseInt(bird.css("top")) + bird_velocity);
+
+              if (bird_velocity < 0) {
+                bird.css("transform", "rotate(-20deg)");
+              } else {
+                bird.css("transform", "rotate(30deg)");
+              }
+            }
+          }, game_interval);
+        }
+
+        // --- 9. XỬ LÝ SỰ KIỆN (EVENTS) ---
+
+        // Nhấn phím
+        $(document).keydown(function (e) {
+          if (!game_over && !play_btn.is(":visible") && !is_hit) {
+            if (e.keyCode === 32 || e.keyCode === 40) {
+              e.preventDefault();
+              bird_velocity = jump_strength;
+              audio_flap.currentTime = 0;
+              audio_flap.play();
+            }
+          }
+        });
+
+        // Nhấn nút "BẮT ĐẦU CHƠI"
+        play_btn.click(function () {
+          audio_bgm.play();
+          playGame();
+          $(this).hide();
+          controls_help.addClass("show");
+        });
+
+        // --- 10. CÁC HÀM CHỨC NĂNG GAME ---
+
+        // Hàm xử lý khi va chạm
+        function handleHit() {
+          is_hit = true; // Đánh dấu là đang bị va chạm
+          current_lives--; // Trừ 1 mạng
+          updateLivesDisplay(); // Cập nhật hiển thị
+
+          audio_hit.currentTime = 0;
+          audio_hit.play();
+
+          // Kiểm tra xem hết mạng chưa
+          if (current_lives <= 0) {
+            stop_the_game(); // Hết mạng -> Game Over
+            return;
+          }
+
+          // Nếu còn mạng:
+          // 1. Tạo hiệu ứng nhấp nháy (blink)
+          bird.fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+
+          // 2. Reset vị trí chim và ống khói sau 0.5s
+          setTimeout(function () {
+            bird.css("top", "20%"); // Đưa chim về vị trí giữa
+            bird_velocity = 0; // Reset vận tốc
+            pole.css("right", pole_initial_position); // Đẩy ống khói ra xa
+            score_updated = false; // Reset cờ tính điểm
+            is_hit = false; // Bỏ đánh dấu va chạm
+          }, 500);
+        }
+
+        // Hàm tạo vật phẩm
+        function spawnLifeItem() {
+          item_active = true;
+          // Đặt vị trí Y (chiều cao) ngẫu nhiên
+          var item_top =
+            Math.random() * (container_height * 0.6) + container_height * 0.2; // (từ 20% đến 80% chiều cao)
+          life_item.css("top", item_top + "px");
+          life_item.css("right", "-30px"); // Đặt lại vị trí X
+          life_item.show();
+        }
+
+        // Hàm ăn vật phẩm
+        function gainLife() {
+          // [THAY ĐỔI] Chỉ cộng mạng nếu đang dưới 6
+          if (current_lives < 6) {
+            current_lives++; // Cộng 1 mạng
+            updateLivesDisplay(); // Cập nhật hiển thị
+            audio_item.currentTime = 0;
+            audio_item.play();
+          }
+
+          // Ẩn vật phẩm đi (luôn luôn, ngay cả khi đã 6 mạng)
+          item_active = false;
+          life_item.hide();
+        }
+
+        // Hàm cập nhật hiển thị mạng
+        function updateLivesDisplay() {
+          var hearts = "";
+          for (var i = 0; i < current_lives; i++) {
+            hearts += "❤️";
+          }
+          lives_display.text(hearts);
+        }
+
+        // Hàm được gọi khi THUA (hết mạng)
+        function stop_the_game() {
+          audio_bgm.pause();
+          audio_bgm.currentTime = 0;
+          game_over = true;
+          clearInterval(the_game);
+
+          if (current_score > high_score) {
+            high_score = current_score;
+            localStorage.setItem("flappybird_highscore", high_score);
+            highscore_display
+              .text("High: " + high_score)
+              .css("color", "#FFD700");
+          }
+
+          game_over_msg.fadeIn();
+          restart_btn.fadeIn();
+        }
+
+        // Hàm được gọi khi THẮNG (đạt 50 điểm)
+        function victory() {
+          audio_bgm.pause();
+          audio_bgm.currentTime = 0;
+
+          game_over = true;
+          clearInterval(the_game);
+
+          // Phát âm thanh chiến thắng (dùng tạm âm thanh vật phẩm)
+          audio_item.currentTime = 0;
+          audio_item.play();
+
+          // Cập nhật điểm cao (nếu cần)
+          if (current_score > high_score) {
+            high_score = current_score;
+            localStorage.setItem("flappybird_highscore", high_score);
+            highscore_display
+              .text("High: " + high_score)
+              .css("color", "#FFD700");
+          }
+
+          victory_msg.fadeIn();
+          restart_btn.fadeIn();
+        }
+
+        // Sự kiện nhấn nút "CHƠI LẠI"
+        restart_btn.click(function () {
+          location.reload(); // Tải lại trang web (cách đơn giản nhất để reset game)
+        });
+
+        // --- 11. HÀM KIỂM TRA VA CHẠM (COLLISION) ---
+        function collision($div1, $div2) {
+          // Lấy tọa độ và kích thước của div 1
+          var x1 = $div1.offset().left;
+          var y1 = $div1.offset().top;
+          var h1 = $div1.outerHeight(true);
+          var w1 = $div1.outerWidth(true);
+          var b1 = y1 + h1; // Tọa độ đáy
+          var r1 = x1 + w1; // Tọa độ phải
+
+          // Lấy tọa độ và kích thước của div 2
+          var x2 = $div2.offset().left;
+          var y2 = $div2.offset().top;
+          var h2 = $div2.outerHeight(true);
+          var w2 = $div2.outerWidth(true);
+          var b2 = y2 + h2; // Tọa độ đáy
+          var r2 = x2 + w2; // Tọa độ phải
+
+          if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

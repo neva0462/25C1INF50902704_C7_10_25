@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlowerShop - Cửa Hàng Hoa Tươi</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://upload.wikimedia.org/wikipedia/commons/7/71/Logo_UEH_xanh.png"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <!-- xZoom CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/xzoom/1.0.15/xzoom.min.css"
+    />
+
+    <!-- Star Rating CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/css/star-rating.min.css"
+      media="all"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/themes/krajee-svg/theme.css"
+      media="all"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <style>
+      body {
+        padding-top: 70px;
+        background-color: #fef9f5;
+        font-family: "Arial", sans-serif;
+      }
+
+      .navbar-brand img {
+        display: inline-block;
+      }
+
+      .badge {
+        background-color: #e91e63;
+      }
+
+      .thumbnail {
+        position: relative;
+        padding: 0;
+        border: none;
+        background: white;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+        overflow: hidden;
+      }
+
+      .thumbnail:hover {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+      }
+
+      .thumbnail img {
+        width: 100%;
+        height: auto;
+      }
+
+      .thumbnail .caption {
+        padding: 15px;
+      }
+
+      .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #e91e63;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 50%;
+        font-weight: bold;
+        z-index: 10;
+        font-size: 13px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #4caf50;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 3px;
+        font-weight: bold;
+        text-transform: uppercase;
+        z-index: 10;
+        font-size: 11px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-badge.bestseller {
+        background-color: #ff9800;
+      }
+
+      .add-to-cart {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        font-size: 28px;
+        color: #4caf50;
+        cursor: pointer;
+        z-index: 5;
+        background: white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s;
+      }
+
+      .add-to-cart:hover {
+        color: #45a049;
+        transform: scale(1.1);
+      }
+
+      .list-group-item {
+        border-left: 3px solid transparent;
+        transition: all 0.3s;
+      }
+
+      .list-group-item:hover,
+      .list-group-item.active {
+        border-left-color: #e91e63;
+        background-color: #fff5f8;
+      }
+
+      .carousel-inner img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+      }
+
+      .progress {
+        margin-top: 5px;
+        margin-bottom: 10px;
+        height: 25px;
+        border-radius: 4px;
+      }
+
+      .progress-bar {
+        line-height: 25px;
+        font-weight: bold;
+      }
+
+      .stock-info {
+        font-size: 13px;
+        color: #555;
+        margin-top: 10px;
+      }
+
+      .img-thumbnail {
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid #ddd;
+      }
+
+      .img-thumbnail:hover {
+        border-color: #e91e63;
+        transform: scale(1.05);
+      }
+
+      .ratings {
+        margin-top: 10px;
+      }
+
+      .review-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+      }
+
+      .comment-item {
+        padding: 15px;
+        background: #f9f9f9;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border-left: 3px solid #e91e63;
+      }
+
+      .btn-group .btn {
+        margin-right: 5px;
+      }
+
+      .page-section {
+        background: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .order-item {
+        padding: 15px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background: white;
+      }
+
+      .navbar-default {
+        background-color: #fff;
+        border-bottom: 2px solid #e91e63;
+      }
+
+      .navbar-default .navbar-brand {
+        color: #e91e63;
+        font-weight: bold;
+        font-size: 24px;
+      }
+
+      .price-original {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 14px;
+      }
+
+      .price-sale {
+        color: #e91e63;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .xzoom-container {
+        position: relative;
+      }
+
+      .xzoom-thumbs {
+        margin-top: 15px;
+      }
+      .thumbnail img {
+        width: 400px;
+        height: 350px;
+        object-fit: cover; /* Giữ tỷ lệ và crop vừa vặn */
+      }
+      #carousel-main {
+        max-width: 1300px; /* Giới hạn chiều rộng tối đa slider */
+        margin: 0 auto; /* Căn giữa slider */
+      }
+
+      /* Container giới hạn chiều rộng slider */
+      #carousel-main {
+        max-width: 1300px; /* Chiều rộng tối đa */
+        margin: 0 auto; /* Căn giữa */
+      }
+
+      /* Ảnh trong slider */
+      .carousel-inner > .item > img {
+        width: 100%; /* Chiều rộng full container */
+        height: 400px; /* Chiều cao cố định */
+        object-fit: cover; /* Giữ tỷ lệ ảnh, crop phần thừa */
+      }
+
+      /* Giữ responsive khi màn hình nhỏ */
+      @media (max-width: 768px) {
+        .carousel-inner > .item > img {
+          height: 250px; /* Cao hơn cho mobile */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#navbar-collapse"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#home"> 🌺 FlowerShop </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#home">Trang Chủ</a></li>
+            <li><a href="#products">Sản Phẩm</a></li>
+            <li class="dropdown">
+              <a
+                href="#"
+                class="dropdown-toggle"
+                data-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Danh Mục <span class="caret"></span
+              ></a>
+              <ul class="dropdown-menu">
+                <li><a href="#roses">Hoa Hồng</a></li>
+                <li><a href="#bouquet">Hoa Bó</a></li>
+                <li><a href="#basket">Giỏ Hoa</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#occasion">Hoa Theo Dịp</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <form class="navbar-form navbar-left hidden-xs">
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Tìm kiếm hoa..."
+              />
+            </div>
+            <button type="submit" class="btn btn-default">Tìm</button>
+          </form>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="#cart">
+                <span class="badge pull-right">4</span>
+                <i class="glyphicon glyphicon-shopping-cart"></i> Giỏ Hàng
+              </a>
+            </li>
+            <li>
+              <a href="#account"
+                ><i class="glyphicon glyphicon-user"></i> Tài Khoản</a
+              >
+            </li>
+            <li>
+              <a href="#" data-toggle="modal" data-target="#loginModal"
+                >Đăng Nhập</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Search -->
+    <div
+      class="container-fluid visible-xs-block"
+      style="margin-top: 70px; margin-bottom: 10px"
+    >
+      <form class="form-inline">
+        <div class="form-group" style="width: 100%">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tìm kiếm hoa..."
+            style="width: 100%"
+          />
+        </div>
+      </form>
+    </div>
+
+    <!-- Carousel Slider -->
+    <div class="container-fluid" id="home">
+      <div id="carousel-main" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li
+            data-target="#carousel-main"
+            data-slide-to="0"
+            class="active"
+          ></li>
+          <li data-target="#carousel-main" data-slide-to="1"></li>
+          <li data-target="#carousel-main" data-slide-to="2"></li>
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <img
+              src="https://i.pinimg.com/736x/98/57/89/98578990f5203ba8c2786543af0aecc5.jpg"
+              alt="Hoa Hồng"
+            />
+            <div class="carousel-caption">
+              <h3>Hoa Hồng Cao Cấp</h3>
+              <p>Giảm giá lên đến 30% cho bộ sưu tập hoa hồng</p>
+            </div>
+          </div>
+          <div class="item">
+            <img
+              src="https://i.pinimg.com/736x/45/43/70/45437044643fcd400511cb0488cd260d.jpg"
+              alt="Hoa Bó"
+            />
+            <div class="carousel-caption">
+              <h3>Bó Hoa Tươi Đẹp</h3>
+              <p>Thiết kế độc đáo, giao hàng nhanh chóng</p>
+            </div>
+          </div>
+          <div class="item">
+            <img
+              src="https://i.pinimg.com/1200x/aa/c1/ec/aac1ec4ef714f2d58d6a3b30d7b4acff.jpg"
+              alt="Giỏ Hoa"
+            />
+            <div class="carousel-caption">
+              <h3>Giỏ Hoa Sang Trọng</h3>
+              <p>Hoàn hảo cho mọi dịp đặc biệt</p>
+            </div>
+          </div>
+        </div>
+
+        <a
+          class="left carousel-control"
+          href="#carousel-main"
+          role="button"
+          data-slide="prev"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-left"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="right carousel-control"
+          href="#carousel-main"
+          role="button"
+          data-slide="next"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-right"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="margin-top: 20px" id="products">
+      <div class="row">
+        <!-- Categories Sidebar -->
+        <div class="col-sm-4 col-md-3">
+          <div class="page-section">
+            <h3>Danh Mục Hoa</h3>
+            <ul class="list-group">
+              <li class="list-group-item active">
+                <span class="badge">42</span>
+                Hoa Hồng
+              </li>
+              <li class="list-group-item">
+                <span class="badge">28</span>
+                Hoa Tulip
+              </li>
+              <li class="list-group-item">
+                <span class="badge">35</span>
+                Hoa Ly
+              </li>
+              <li class="list-group-item">
+                <span class="badge">19</span>
+                Hoa Cẩm Chướng
+              </li>
+              <li class="list-group-item">
+                <span class="badge">31</span>
+                Hoa Lan
+              </li>
+              <li class="list-group-item">
+                <span class="badge">45</span>
+                Hoa Bó
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="col-sm-8 col-md-9">
+          <h3>Sản Phẩm Nổi Bật</h3>
+          <div class="row">
+            <!-- Product 1 -->
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="discount-badge">-15%</div>
+                <div class="product-badge bestseller">Bán Chạy</div>
+                <img
+                  src="https://i.pinimg.com/1200x/55/8e/f1/558ef1ef19e05bde54d0cf9dd157e3de.jpg"
+                  alt="Bó Hoa Hồng Đỏ"
+                />
+                <div class="add-to-cart">
+                  <a
+                    href="#"
+                    class="glyphicon glyphicon-plus-sign"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Thêm vào giỏ"
+                  ></a>
+                </div>
+                <div class="caption">
+                  <h4 class="pull-right">
+                    <span class="price-original">850.000₫</span>
+                    <br /><span class="price-sale">720.000₫</span>
+                  </h4>
+                  <h4>
+                    <a href="#product-detail">Bó Hoa Hồng Đỏ Sang Trọng</a>
+                  </h4>
+                  <p>
+                    12 bông hoa hồng đỏ Ecuador cao cấp, thể hiện tình yêu chân
+                    thành.
+                  </p>
+
+                  <div class="stock-info">
+                    <span
+                      ><i
+                        class="glyphicon glyphicon-ok-circle"
+                        style="color: #4caf50"
+                      ></i>
+                      Còn hàng: 23 bó</span
+                    >
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-success"
+                        role="progressbar"
+                        style="width: 76%"
+                      >
+                        76% Còn hàng
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ratings">
+                    <p class="pull-right"><a href="#reviews">45 đánh giá</a></p>
+                    <input
+                      type="text"
+                      class="rating-display"
+                      value="4.5"
+                      data-size="xs"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="discount-badge">-20%</div>
+                <div class="product-badge">Mới</div>
+                <img
+                  src="https://i.pinimg.com/1200x/83/27/1b/83271b5537e71319c98e8df23cdec60a.jpg"
+                  alt="Hoa Tulip"
+                />
+                <div class="add-to-cart">
+                  <a
+                    href="#"
+                    class="glyphicon glyphicon-plus-sign"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Thêm vào giỏ"
+                  ></a>
+                </div>
+                <div class="caption">
+                  <h4 class="pull-right">
+                    <span class="price-original">750.000₫</span>
+                    <br /><span class="price-sale">600.000₫</span>
+                  </h4>
+                  <h4><a href="#product-detail">Bó Tulip Hà Lan Mix</a></h4>
+                  <p>20 bông tulip đa sắc màu nhập khẩu trực tiếp từ Hà Lan.</p>
+
+                  <div class="stock-info">
+                    <span
+                      ><i
+                        class="glyphicon glyphicon-warning-sign"
+                        style="color: #ff9800"
+                      ></i>
+                      Còn hàng: 8 bó</span
+                    >
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-warning"
+                        role="progressbar"
+                        style="width: 26%"
+                      >
+                        26% Còn hàng
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ratings">
+                    <p class="pull-right"><a href="#reviews">32 đánh giá</a></p>
+                    <input
+                      type="text"
+                      class="rating-display"
+                      value="4.8"
+                      data-size="xs"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="discount-badge">-10%</div>
+                <img
+                  src="https://i.pinimg.com/1200x/88/ac/09/88ac09439516db8f6b4df50306e9ca26.jpg"
+                  alt="Giỏ Hoa"
+                />
+                <div class="add-to-cart">
+                  <a
+                    href="#"
+                    class="glyphicon glyphicon-plus-sign"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Thêm vào giỏ"
+                  ></a>
+                </div>
+                <div class="caption">
+                  <h4 class="pull-right">
+                    <span class="price-original">950.000₫</span>
+                    <br /><span class="price-sale">855.000₫</span>
+                  </h4>
+                  <h4><a href="#product-detail">Giỏ Hoa Hồng Phấn</a></h4>
+                  <p>
+                    Giỏ hoa kết hợp hoa hồng phấn, baby và các loại hoa phụ
+                    trang nhã.
+                  </p>
+
+                  <div class="stock-info">
+                    <span
+                      ><i
+                        class="glyphicon glyphicon-ok-circle"
+                        style="color: #4caf50"
+                      ></i>
+                      Còn hàng: 42 giỏ</span
+                    >
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-success"
+                        role="progressbar"
+                        style="width: 84%"
+                      >
+                        84% Còn hàng
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ratings">
+                    <p class="pull-right"><a href="#reviews">28 đánh giá</a></p>
+                    <input
+                      type="text"
+                      class="rating-display"
+                      value="4.2"
+                      data-size="xs"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="discount-badge">-25%</div>
+                <div class="product-badge bestseller">Bán Chạy</div>
+                <img
+                  src="https://i.pinimg.com/1200x/b3/a7/3d/b3a73d3984306d5896d3244a3f5ec258.jpg"
+                  alt="Hoa Ly"
+                />
+                <div class="add-to-cart">
+                  <a
+                    href="#"
+                    class="glyphicon glyphicon-plus-sign"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Thêm vào giỏ"
+                  ></a>
+                </div>
+                <div class="caption">
+                  <h4 class="pull-right">
+                    <span class="price-original">800.000₫</span>
+                    <br /><span class="price-sale">600.000₫</span>
+                  </h4>
+                  <h4>
+                    <a href="#product-detail">Bó Hoa Ly Trắng Tinh Khôi</a>
+                  </h4>
+                  <p>
+                    10 cành hoa ly trắng thơm dịu nhẹ, biểu tượng của sự trong
+                    sáng.
+                  </p>
+
+                  <div class="stock-info">
+                    <span
+                      ><i
+                        class="glyphicon glyphicon-remove-circle"
+                        style="color: #f44336"
+                      ></i>
+                      Còn hàng: 3 bó</span
+                    >
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-danger"
+                        role="progressbar"
+                        style="width: 10%"
+                      >
+                        10% Còn hàng
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ratings">
+                    <p class="pull-right"><a href="#reviews">67 đánh giá</a></p>
+                    <input
+                      type="text"
+                      class="rating-display"
+                      value="4.7"
+                      data-size="xs"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="product-badge">Mới</div>
+                <img
+                  src="https://i.pinimg.com/1200x/ae/bd/28/aebd28b0e198bd1044caab240b83ed78.jpg"
+                  alt="Hoa Lan"
+                />
+                <div class="add-to-cart">
+                  <a
+                    href="#"
+                    class="glyphicon glyphicon-plus-sign"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Thêm vào giỏ"
+                  ></a>
+                </div>
+                <div class="caption">
+                  <h4 class="pull-right">
+                    <span class="price-sale">1.200.000₫</span>
+                  </h4>
+                  <h4>
+                    <a href="#product-detail">Chậu Lan Hồ Điệp Cao Cấp</a>
+                  </h4>
+                  <p>
+                    Chậu lan hồ điệp 5 cành, màu tím nhạt sang trọng, quà tặng ý
+                    nghĩa.
+                  </p>
+
+                  <div class="stock-info">
+                    <span
+                      ><i
+                        class="glyphicon glyphicon-ok-circle"
+                        style="color: #4caf50"
+                      ></i>
+                      Còn hàng: 15 chậu</span
+                    >
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-info"
+                        role="progressbar"
+                        style="width: 50%"
+                      >
+                        50% Còn hàng
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ratings">
+                    <p class="pull-right"><a href="#reviews">19 đánh giá</a></p>
+                    <input
+                      type="text"
+                      class="rating-display"
+                      value="4.3"
+                      data-size="xs"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="discount-badge">-18%</div>
+                <img
+                  src="https://i.pinimg.com/1200x/78/7f/2d/787f2d0114e8fa4d1ca92abd06d599ec.jpg"
+                  alt="Hoa Cẩm Chướng"
+                />
+                <div class="add-to-cart">
+                  <a
+                    href="#"
+                    class="glyphicon glyphicon-plus-sign"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Thêm vào giỏ"
+                  ></a>
+                </div>
+                <div class="caption">
+                  <h4 class="pull-right">
+                    <span class="price-original">490.000₫</span>
+                    <br /><span class="price-sale">400.000₫</span>
+                  </h4>
+                  <h4><a href="#product-detail">Bó Cẩm Chướng Pastel</a></h4>
+                  <p>
+                    30 bông cẩm chướng mix màu pastel dịu dàng, tươi lâu đến 2
+                    tuần.
+                  </p>
+
+                  <div class="stock-info">
+                    <span
+                      ><i
+                        class="glyphicon glyphicon-ok-circle"
+                        style="color: #4caf50"
+                      ></i>
+                      Còn hàng: 31 bó</span
+                    >
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-success"
+                        role="progressbar"
+                        style="width: 62%"
+                      >
+                        62% Còn hàng
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ratings">
+                    <p class="pull-right"><a href="#reviews">53 đánh giá</a></p>
+                    <input
+                      type="text"
+                      class="rating-display"
+                      value="4.6"
+                      data-size="xs"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Detail Section -->
+      <div class="row" id="product-detail" style="margin-top: 40px">
+        <div class="col-sm-4 col-md-3">
+          <div class="page-section">
+            <h4>Danh Mục Liên Quan</h4>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span class="badge">42</span>
+                Hoa Hồng
+              </li>
+              <li class="list-group-item">
+                <span class="badge">28</span>
+                Hoa Theo Dịp
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-sm-8 col-md-9">
+          <div class="page-section">
+            <h3>Chi Tiết Sản Phẩm</h3>
+            <div class="thumbnail">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="xzoom-container">
+                    <img
+                      class="xzoom"
+                      id="xzoom-default"
+                      src="https://i.pinimg.com/736x/1c/72/70/1c72708af670a880137c10d49167d1b6.jpg"
+                      alt="Hoa Hồng Đỏ"
+                      xoriginal="https://i.pinimg.com/736x/1c/72/70/1c72708af670a880137c10d49167d1b6.jpg"
+                    />
+                  </div>
+                  <div class="xzoom-thumbs row" style="margin-top: 15px">
+                    <div class="col-xs-3">
+                      <a
+                        href="https://i.pinimg.com/736x/71/20/bd/7120bdec0b0f361082f9ef6c294ede66.jpg"
+                        class="xzoom-gallery"
+                        title="Hoa Hồng Góc 1"
+                      >
+                        <img
+                          src="https://i.pinimg.com/736x/71/20/bd/7120bdec0b0f361082f9ef6c294ede66.jpg"
+                          class="img-thumbnail img-responsive"
+                          alt="Hoa Hồng Góc 1"
+                        />
+                      </a>
+                    </div>
+                    <div class="col-xs-3">
+                      <a
+                        href="https://i.pinimg.com/1200x/53/fb/e2/53fbe28c9f5b9f89886a309f5ea59ec9.jpg"
+                        class="xzoom-gallery"
+                        title="Hoa Hồng Góc 2"
+                      >
+                        <img
+                          src="https://i.pinimg.com/736x/3c/58/94/3c5894156e01df44acaeeb1a1700baaf.jpg"
+                          class="img-thumbnail img-responsive"
+                        />
+                      </a>
+                    </div>
+                    <div class="col-xs-3">
+                      <a
+                        href="https://i.pinimg.com/736x/6e/83/ee/6e83eec5071f6294ef84b1b7bed8643b.jpg"
+                        class="xzoom-gallery"
+                        title="Hoa Hồng Góc 3"
+                      >
+                        <img
+                          src="https://i.pinimg.com/736x/c2/b9/66/c2b9660f14d31a2a1a3748e32c86521a.jpg"
+                          class="img-thumbnail img-responsive"
+                        />
+                      </a>
+                    </div>
+                    <div class="col-xs-3">
+                      <a
+                        href="https://i.pinimg.com/1200x/f5/d4/26/f5d426b671796b3ec80afb53538b01d7.jpg"
+                        class="xzoom-gallery"
+                        title="Hoa Hồng Góc 4"
+                      >
+                        <img
+                          src="https://i.pinimg.com/1200x/20/27/95/202795cdbf36b92bf0901bec278d8475.jpg"
+                          class="img-thumbnail img-responsive"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Product Description -->
+                <div class="col-sm-6">
+                  <h4><strong>Bó Hoa Hồng Đỏ Sang Trọng</strong></h4>
+                  <p>
+                    Bó hoa gồm 12 bông hồng đỏ Ecuador tươi thắm, được gói trong
+                    giấy kraft sang trọng — biểu tượng của tình yêu nồng nàn và
+                    bền lâu.
+                  </p>
+
+                  <h4>
+                    <span class="price-sale">720.000₫</span>
+                    <span class="price-original">850.000₫</span>
+                  </h4>
+
+                  <div class="ratings">
+                    <input
+                      type="text"
+                      class="rating-display"
+                      value="4.5"
+                      data-size="sm"
+                    />
+                    <span class="small text-muted"> (45 đánh giá)</span>
+                  </div>
+
+                  <hr />
+
+                  <form role="form">
+                    <div class="form-group">
+                      <label>Số lượng</label>
+                      <input
+                        type="number"
+                        class="form-control input-sm"
+                        value="1"
+                        min="1"
+                        style="width: 100px"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label>Màu giấy gói</label>
+                      <select
+                        class="form-control input-sm"
+                        style="width: 200px"
+                      >
+                        <option>Kraft nâu</option>
+                        <option>Trắng</option>
+                        <option>Đỏ</option>
+                        <option>Đen</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Kích cỡ bó hoa</label><br />
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm">
+                          S
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm">
+                          M
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm">
+                          L
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <button type="button" class="btn btn-success">
+                        🛒 Thêm vào giỏ
+                      </button>
+                      <button type="button" class="btn btn-default">
+                        💬 Liên hệ người bán
+                      </button>
+                    </div>
+                  </form>
+
+                  <div class="stock-info">
+                    <strong>Trạng thái kho:</strong>
+                    <div class="progress">
+                      <div
+                        class="progress-bar progress-bar-warning"
+                        role="progressbar"
+                        style="width: 40%"
+                      >
+                        40% Còn hàng
+                      </div>
+                    </div>
+                    <span class="text-muted">Còn lại 12 bó / Đã bán 18</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="review-section" id="reviews">
+              <h4>Đánh Giá Từ Khách Hàng</h4>
+              <div class="comment-item">
+                <strong>🌷 Thanh Hương</strong>
+                <span class="pull-right text-muted small">2 ngày trước</span>
+                <p>
+                  Bó hoa rất đẹp, hương thơm nhẹ và gói rất cẩn thận. Sẽ ủng hộ
+                  lần sau 💐
+                </p>
+              </div>
+              <div class="comment-item">
+                <strong>🌹 Minh Anh</strong>
+                <span class="pull-right text-muted small">1 tuần trước</span>
+                <p>Màu hoa rực rỡ hơn hình, tươi lâu, rất hài lòng.</p>
+              </div>
+              <div class="text-right">
+                <button class="btn btn-success">Viết Đánh Giá</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="text-center"
+      style="
+        margin-top: 40px;
+        padding: 20px;
+        background: #fff0f5;
+        border-top: 2px solid #e91e63;
+      "
+    >
+      <p>© 2025 FlowerShop.vn | <strong>UEH Student</strong></p>
+    </footer>
+
+    <!-- jQuery + Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- xZoom JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xzoom/1.0.15/xzoom.min.js"></script>
+
+    <!-- Star Rating JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/js/star-rating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.1.2/themes/krajee-svg/theme.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // Tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Star rating setup
+        $(".rating-display").rating({
+          displayOnly: true,
+          step: 0.1,
+          showClear: false,
+          showCaption: false,
+          theme: "krajee-svg",
+        });
+
+        // xZoom setup
+        $(".xzoom, .xzoom-gallery").xzoom({
+          zoomWidth: 400,
+          title: false,
+          tint: "#e91e63",
+          Xoffset: 20,
+        });
+      });
+    </script>
+  </body>
+</html>
